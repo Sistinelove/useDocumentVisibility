@@ -1,8 +1,8 @@
 {
   "name": "@sistinelove/use-document-visibility",
-  "version": "1.0.2",
+  "version": "1.0.7",
   "description": "Кастомный React хук для отслеживания изменений видимости документа",
-  "main": "dist/bundle.js",
+  "main": "src/customHook/useDocumentVisibility.tsx",
   "scripts": {
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"

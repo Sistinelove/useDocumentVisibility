@@ -7,7 +7,7 @@ import terser from '@rollup/plugin-terser';
 export default {
     input: 'src/customHook/useDocumentVisibility.tsx',
     output: {
-        file: 'dist/bundle.js',
+        file: 'dist/useDocumentVisibility.js',
         format: 'es',
         sourcemap: true
     },
