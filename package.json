@@ -1,14 +1,14 @@
 {
-  "name": "one",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "@sistinelove/use-document-visibility",
+  "version": "1.0.2",
+  "description": "Кастомный React хук для отслеживания изменений видимости документа",
+  "main": "dist/bundle.js",
   "scripts": {
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "sistinelove",
   "license": "ISC",
   "dependencies": {
     "react": "^18.3.1",
