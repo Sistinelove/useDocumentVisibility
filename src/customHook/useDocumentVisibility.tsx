@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useCallback} from 'react';
 
 export const useDocumentVisibility = () => {
+  const isClientSide = typeof document !== "undefined";
   const [count, setCount] = useState(0);
-  const [visible, setVisible] = useState(!document.hidden);
+  const [visible, setVisible] = useState(isClientSide ? !document.hidden : true);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -19,9 +20,10 @@ export const useDocumentVisibility = () => {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, []);
+  }, [isClientSide]);
 
   const onVisibilityChange = useCallback((handler: (isVisible: boolean) => void) => {
+    if(!isClientSide) return;
     const handleVisibility = () => {
       handler(!document.hidden);
     };
@@ -31,7 +33,7 @@ export const useDocumentVisibility = () => {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, []);
+  }, [isClientSide]);
 
   return {count, visible, onVisibilityChange};
 };
