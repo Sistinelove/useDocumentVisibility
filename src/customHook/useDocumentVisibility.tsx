@@ -1,21 +1,20 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
+
+type HandlerVisiblyChange = (isVisible: boolean) => void;
 
 export const useDocumentVisibility = () => {
   const isClientSide = typeof document !== "undefined";
-  const [count, setCount] = useState(() => 0);
-  const [visible, setVisible] = useState(() => (isClientSide ? !document.hidden : true));
-  const [handlers, setHandlers] = useState<((isVisible: boolean) => void)[]>(() => []);
+  const [count, setCount] = useState(0);
+  const [visible, setVisible] = useState(isClientSide ? !document.hidden : true);
+  const handlersRef = useRef<HandlerVisiblyChange[]>([]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
-      const isVisible = !document.hidden;
+      setVisible(!document.hidden);
       if (document.hidden) {
         setCount(prev => prev + 1);
-        setVisible(false);
-      } else {
-        setVisible(true);
       }
-      handlers.forEach(handler => handler(isVisible));
+      handlersRef.current.forEach(handler => handler(!document.hidden));
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -25,13 +24,13 @@ export const useDocumentVisibility = () => {
     };
   }, []);
 
-  const onVisibilityChange = useCallback((handler: (isVisible: boolean) => void) => {
-    setHandlers(prevHandlers => [...prevHandlers, handler]);
+  const onVisibilityChange = useCallback((handler: HandlerVisiblyChange) => {
+    handlersRef.current.push(handler);
 
     return () => {
-      setHandlers(prevHandlers => prevHandlers.filter(h => h !== handler));
+      handlersRef.current = handlersRef.current.filter(h => h !== handler);
     };
   }, []);
 
-  return {count, visible, onVisibilityChange};
+  return { count, visible, onVisibilityChange };
 };

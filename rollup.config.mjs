@@ -6,11 +6,18 @@ import terser from '@rollup/plugin-terser';
 
 export default {
     input: 'src/customHook/useDocumentVisibility.tsx',
-    output: {
-        file: 'dist/useDocumentVisibility.js',
-        format: 'es',
-        sourcemap: true
-    },
+    output: [
+        {
+            file: 'dist/index.js',
+            format: 'cjs',
+            sourcemap: true,
+        },
+        {
+            file: 'dist/index.es.js',
+            format: 'es',
+            sourcemap: true,
+        },
+    ],
     plugins: [
         replace({
             'process.env.NODE_ENV': JSON.stringify('production'),
@@ -24,5 +31,6 @@ export default {
             tsconfig: 'tsconfig.json'
         }),
         terser()
-    ]
+    ],
+    external: ['react', 'react-dom'],
 };
