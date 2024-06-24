@@ -1,11 +1,13 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import {useEffect, useState, useCallback, useRef} from 'react';
 
 type HandlerVisiblyChange = (isVisible: boolean) => void;
 
 export const useDocumentVisibility = () => {
   const isClientSide = typeof document !== "undefined";
   const [count, setCount] = useState(0);
-  const [visible, setVisible] = useState(isClientSide ? !document.hidden : true);
+  const [visible, setVisible] = useState(() => (
+    isClientSide ? !document.hidden : true
+  ));
   const handlersRef = useRef<HandlerVisiblyChange[]>([]);
 
   useEffect(() => {
@@ -32,5 +34,5 @@ export const useDocumentVisibility = () => {
     };
   }, []);
 
-  return { count, visible, onVisibilityChange };
+  return {count, visible, onVisibilityChange};
 };
